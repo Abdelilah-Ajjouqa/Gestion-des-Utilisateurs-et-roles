@@ -30,7 +30,7 @@
             <p class="text-lg mb-8">Discover, Connect, and Grow with Us</p>
             <div class="space-x-4">
                 <a href="./register-login/register-page.php"><button class="bg-gray-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded">Register</button></a>
-                <a href=""><button class="bg-gray-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded">Login</button></a>
+                <a href="./register-login/login-page.php"><button class="bg-gray-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded">Login</button></a>
                 <a href=""><button class="hover:text-red-500 text-white font-bold py-1 px-2 rounded text-sm">Guest</button></a>
             </div>
         </div>

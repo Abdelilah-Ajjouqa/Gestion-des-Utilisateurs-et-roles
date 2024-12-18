@@ -40,7 +40,7 @@
                     <label class="block text-gray-700">Password</label>
                     <input type="password" name="password" required class="w-full p-2 border border-gray-300 rounded">
                 </div>
-                <a href=""></a><button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Register</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Register</button>
             </form>
         </div>
 </body>
