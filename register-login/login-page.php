@@ -23,11 +23,10 @@
 
     <div class="container w-[40%] mx-auto p-4">
         <h1 class="text-3xl text-center font-bold mb-4">Blog Platform</h1>
-
         <!-- Login Form -->
         <div class="bg-white p-6 rounded shadow-md mb-6">
             <h2 class="text-2xl font-bold mb-4">Login</h2>
-            <form id="loginForm" method="post" action="./login-form.php">
+            <form id="loginForm" method="post" action="./login-form.php" class="flex flex-col">
                 <div class="mb-4">
                     <label class="block text-gray-700">Email</label>
                     <input type="email" name="email" class="w-full p-2 border border-gray-300 rounded">
@@ -36,7 +35,7 @@
                     <label class="block text-gray-700">Password</label>
                     <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded">
                 </div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mx-auto">Login</button>
             </form>
         </div>
 </body>
