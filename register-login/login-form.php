@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../config-db.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['email']) && isset($_POST['password'])){
@@ -9,7 +10,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = $result->fetch_assoc();
         
         if (password_verify($password , $user['userPassword'])) {
-        header("location: ../home.php");
+        $_SESSION ['email'] = $gmail;
+        $_SESSION ['password'] = $password;
+        header("location: ../index.php");
         exit();
         } else {
             echo 'Invalid password.';

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../config-db.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])){
@@ -9,10 +10,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "INSERT INTO user (userName, userGmail, userPassword) VALUES ('$name', '$gmail', '$hashed_password')";
 
         if ($conn->query($sql)) {
+            $_SESSION ['email'] = $gmail;
+            $_SESSION ['password'] = $hashed_password;
         } else {
             echo "Error: " . $conn->connect_error;
         }
-        header('location: ../home.php');
+        header('location: ./login-page.php');
         exit();
     }
 }

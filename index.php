@@ -1,3 +1,9 @@
+<?php
+    require "./config-db.php";
+    session_start();
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +30,7 @@
         </div>
     </header>
 
-    <h1 id="title" class="text-4xl text-center">There's no Article for now</h1>
+    <!-- <h1 id="title" class="text-4xl text-center">There's no Article for now</h1> -->
 
     <div class="fixed-button flex justify-end mb-2 fixed top-20 right-4 z-10">
         <button onclick="popup()"
@@ -52,7 +58,7 @@
     <!-- Post Card -->
     <div class="container w-[50%] mx-auto p-4">
         <div class="bg-white p-6 rounded shadow-md mb-6">
-            <h2 class="text-xl font-bold mb-2">User Name</h2>
+            <h2 class="text-xl font-bold mb-2"><?php echo "User Name" ?></h2>
             <h3 class="text-lg font-semibold mb-2">Post Title</h3>
             <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea nostrum culpa
                 quidem architecto, voluptatem natus labore delectus fugiat ex, quos eum mollitia aperiam doloribus
