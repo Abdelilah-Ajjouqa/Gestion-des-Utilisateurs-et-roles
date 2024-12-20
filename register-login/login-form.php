@@ -8,11 +8,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "SELECT * FROM user WHERE userGmail = '$gmail'";
         $result = $conn->query($sql);
         $user = $result->fetch_assoc();
-        
+
         if (password_verify($password , $user['userPassword'])) {
         $_SESSION ['email'] = $gmail;
         $_SESSION ['password'] = $password;
-        header("location: ../index.php");
+        header("location: ../aticle/article.php");
         exit();
         } else {
             echo 'Invalid password.';

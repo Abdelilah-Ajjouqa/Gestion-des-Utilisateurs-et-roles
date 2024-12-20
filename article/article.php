@@ -1,7 +1,13 @@
 <?php
-    require "./config-db.php";
-    session_start();
-    
+require "../config-db.php";
+
+$result = $conn->query("SELECT * FROM article");
+$userNameResult = $conn->query("SELECT userName FROM user");
+
+if ($userNameResult && $userNameResult->num_rows > 0) {
+    $userNameRow = $userNameResult->fetch_assoc();
+    $userName = $userNameRow['userName'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,14 +24,15 @@
     <!-- navbar -->
     <header class="bg-blue-600 text-white p-4 shadow-lg shadow-white">
         <div class="container mx-auto flex justify-between px-5 items-center">
+        <h1 class="text-xl font-semibold"><?php echo htmlspecialchars($userName); ?></h1>
             <h1 class="text-2xl font-bold">ReadIt</h1>
             <nav class="flex gap-10 ">
                 <ul class="flex space-x-4 items-center">
-                    <li><a href="./home.php" class="hover:underline">Home</a></li>
+                    <li><a href="../home.php" class="hover:underline">Home</a></li>
                     <li><a href="#" class="hover:underline">About</a></li>
                     <li><a href="#" class="hover:underline">Contact</a></li>
                 </ul>
-                <a href="./home.php" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mx-auto">Logout</a>
+                <a href="../home.php" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mx-auto">Logout</a>
             </nav>
         </div>
     </header>
@@ -37,11 +44,11 @@
             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-3xl">+</button>
     </div>
 
+    <!-- article Form -->
     <div id="container" class="container w-[50%] mx-auto p-4 hidden">
-        <!-- article Form -->
         <div class="bg-white p-6 rounded shadow-md mb-6">
             <h2 class="text-2xl font-bold mb-4">Article</h2>
-            <form id="articleForm" method="post" action="" class="flex flex-col">
+            <form id="articleForm" method="post" action="./article-form.php" class="flex flex-col">
                 <div class="mb-4">
                     <label class="block text-gray-700">Title</label>
                     <input type="text" name="title" class="w-full p-2 border border-gray-300 rounded">
@@ -58,14 +65,22 @@
     <!-- Post Card -->
     <div class="container w-[50%] mx-auto p-4">
         <div class="bg-white p-6 rounded shadow-md mb-6">
-            <h2 class="text-xl font-bold mb-2"><?php echo "User Name" ?></h2>
+            <h2 class="text-xl font-bold mb-2"><?php echo $userName ?></h2>
             <h3 class="text-lg font-semibold mb-2">Post Title</h3>
             <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea nostrum culpa
                 quidem architecto, voluptatem natus labore delectus fugiat ex, quos eum mollitia aperiam doloribus
                 quisquam quia beatae? Recusandae, ea expedita.</p>
             <div class="flex justify-end space-x-4"> <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button> <button
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button> </div>
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                    <?php
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<form method='post' action='./article-delete.php'>
+                        <input type='hidden' name='articleId' value='{$row['articleId']}'>
+                        <button type='submit' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
+                        </form>";
+                    }
+                    ?>
+            </div>
         </div>
     </div>
 
