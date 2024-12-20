@@ -1,6 +1,5 @@
 <?php
 require "../config-db.php";
-
 $result = $conn->query("SELECT * FROM article");
 $userNameResult = $conn->query("SELECT userName FROM user");
 
@@ -24,7 +23,7 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
     <!-- navbar -->
     <header class="bg-blue-600 text-white p-4 shadow-lg shadow-white">
         <div class="container mx-auto flex justify-between px-5 items-center">
-        <h1 class="text-xl font-semibold"><?php echo htmlspecialchars($userName); ?></h1>
+            <h1 class="text-xl font-semibold"><?php echo htmlspecialchars($userName); ?></h1>
             <h1 class="text-2xl font-bold">ReadIt</h1>
             <nav class="flex gap-10 ">
                 <ul class="flex space-x-4 items-center">
@@ -45,22 +44,20 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
     </div>
 
     <!-- article Form -->
-    <div id="container" class="container w-[50%] mx-auto p-4 hidden">
-        <div class="bg-white p-6 rounded shadow-md mb-6">
-            <h2 class="text-2xl font-bold mb-4">Article</h2>
-            <form id="articleForm" method="post" action="./article-form.php" class="flex flex-col">
-                <div class="mb-4">
-                    <label class="block text-gray-700">Title</label>
-                    <input type="text" name="title" class="w-full p-2 border border-gray-300 rounded">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700">Text</label>
-                    <textarea name="text" class="w-full p-2 border border-gray-300 rounded h-20"></textarea>
-                </div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mx-auto">Save</button>
-            </form>
+    <form id="articleForm" method="post" action="./article-form.php"
+        class="flex w-1/2 mx-auto bg-blue-100 mt-5 hidden p-5 rounded shadow-md flex-col">
+        <div class="mb-4">
+            <label class="block text-gray-700">Title</label>
+            <input type="text" name="title" class="w-full p-2 border border-gray-300 rounded" required>
         </div>
-    </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Text</label>
+            <textarea name="context" class="w-full p-2 border border-gray-300 rounded h-20" required></textarea>
+        </div>
+        <button type="submit" onclick="saveBtn()"
+            class="bg-blue-500 text-white px-4 py-2 rounded w-20 mx-auto">Save</button>
+    </form>
+
 
     <!-- Post Card -->
     <div class="container w-[50%] mx-auto p-4">
@@ -72,25 +69,23 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
                 quisquam quia beatae? Recusandae, ea expedita.</p>
             <div class="flex justify-end space-x-4"> <button
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                    <?php
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<form method='post' action='./article-delete.php'>
-                        <input type='hidden' name='articleId' value='{$row['articleId']}'>
-                        <button type='submit' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
-                        </form>";
-                    }
-                    ?>
+                
             </div>
         </div>
     </div>
 
     <script>
-    const container = document.getElementById("container");
+    const container = document.getElementById("articleForm");
     const title = document.getElementById("title");
 
     function popup() {
         container.classList.toggle("hidden");
         title.classList.toggle("hidden");
+    }
+
+    function saveBtn() {
+        // alert("Article saved!");
+        container.classList.add("hidden");
     }
     </script>
 </body>
