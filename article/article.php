@@ -36,14 +36,12 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
         </div>
     </header>
 
-    <!-- <h1 id="title" class="text-4xl text-center">There's no Article for now</h1> -->
-
     <div class="fixed-button flex justify-end mb-2 fixed top-20 right-4 z-10">
         <button onclick="popup()"
             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-3xl">+</button>
     </div>
 
-    <!-- article Form -->
+    <!-- add article -->
     <form id="articleForm" method="post" action="./article-form.php"
         class="flex w-1/2 mx-auto bg-blue-100 mt-5 hidden p-5 rounded shadow-md flex-col">
         <div class="mb-4">
@@ -61,37 +59,52 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
 
     <!-- Post Card -->
     <div class="container mx-auto grid grid-cols-3 gap-4 mt-10">
-    <?php
+        <?php
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
     ?>
-    <div class="bg-white p-5 rounded shadow-md">
-        <h1 class="text-2xl font-bold"><?php echo htmlspecialchars($row['title']); ?></h1>
-        <p class="text-gray-500"><?php echo htmlspecialchars($row['context']); ?></p>
-        <a href="#" class="text-blue-500 hover:underline">Read more</a>
-        <div class="flex justify-end gap-1">
-            <form method="post" action="edit.php" class="inline">
-                <input type="hidden" name="articleId" value="<?php echo $row['articleId']; ?>">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mt-2">Edit</button>
-            </form>
-            <form method="post" action="./delete-article.php" class="inline">
-                <input type="hidden" name="articleId" value="<?php echo $row['articleId']; ?>">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded w-20 mt-2">Delete</button>
-            </form>
+        <div class="bg-white p-5 rounded shadow-md">
+            <h1 class="text-2xl font-bold"><?php echo htmlspecialchars($row['title']); ?></h1>
+            <p class="text-gray-500"><?php echo htmlspecialchars($row['context']); ?></p>
+            <a href="#" class="text-blue-500 hover:underline">Read more</a>
+            <div class="flex justify-end gap-1">
+                <form method="post" action="edit-article.php" class="inline">
+                    <input type="hidden" name="articleId" value="<?php echo $row['articleId']; ?>">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mt-2">Edit</button>
+                </form>
+                <form method="post" action="./delete-article.php" class="inline">
+                    <input type="hidden" name="articleId" value="<?php echo $row['articleId']; ?>">
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded w-20 mt-2">Delete</button>
+                </form>
+            </div>
         </div>
-    </div>
-    <?php
+        <?php
         }
     } else {
         echo "<h1 class='text-4xl text-center'>There's no Article for now</h1>";
     }
     ?>
-</div>
+    </div>
+
+    <!-- Edit Form -->
+    <form id="editForm" method="post" action="./edit-article.php" class="flex w-1/2 mx-auto bg-blue-100 mt-5 hidden p-5 rounded shadow-md flex-col">
+        <input type="hidden" name="articleId" id="editId">
+        <div class="mb-4">
+            <label class="block text-gray-700">Title</label>
+            <input type="text" name="title" id="editTitle" class="w-full p-2 border border-gray-300 rounded" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Text</label>
+            <textarea name="context" id="editContext" class="w-full p-2 border border-gray-300 rounded h-20" required></textarea>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mx-auto">Save</button>
+    </form>
 
 
     <script>
     const container = document.getElementById("articleForm");
     const title = document.getElementById("title");
+    const editForm = document.getElementById("editForm");
 
     function popup() {
         container.classList.toggle("hidden");
@@ -99,7 +112,14 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
     }
 
     function saveBtn() {
-        // alert("Article saved!");
+        container.classList.add("hidden");
+    }
+
+    function editArticle(id, title, context) {
+        document.getElementById("editId").value = id;
+        document.getElementById("editTitle").value = title;
+        document.getElementById("editContext").value = context;
+        editForm.classList.remove("hidden");
         container.classList.add("hidden");
     }
     </script>

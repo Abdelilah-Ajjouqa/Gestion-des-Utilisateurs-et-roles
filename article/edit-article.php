@@ -1,24 +1,39 @@
 <?php
-    require '../config-db.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title']) && isset($_POST['context'])) {
+session_start();
+require '../config-db.php';
 
-    $title = ($_POST['title']);
-    $context = ($_POST['context']);
-    $sql = "ALTER TABLE article";
+$result = $conn->query("SELECT * FROM article");
 
-    if (mysqli_query($conn, $sql)) {
+$userNameResult = $conn->query("SELECT userName FROM user WHERE userGmail = '{$_SESSION['email']}'");
+if ($userNameResult && $userNameResult->num_rows > 0) {
+    $userNameRow = $userNameResult->fetch_assoc();
+    $userName = $userNameRow['userName'];
+} else {
+    $userName = 'Guest';
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title']) && isset($_POST['context']) && !isset($_POST['id'])) {
+    $title = $_POST['title'];
+    $context = $_POST['context'];
+    $sql = "INSERT INTO article (title, context) VALUES ('$title', '$context')";
+    if ($conn->query($sql) === TRUE) {
+        header("Location: article.php");
+        exit();
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error: " . $conn->error;
     }
-
-    header("Location: ./article.php");
-    exit();
 }
 
-function test_input($input)
-{
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id']) && isset($_POST['title']) && isset($_POST['context'])) {
+    $id = $_POST['id'];
+    $title = $_POST['title'];
+    $context = $_POST['context'];
+    $sql = "UPDATE article SET title = '$title', context = '$context' WHERE id = $id";
+    if ($conn->query($sql) === TRUE) {
+        header("Location: article.php");
+        exit();
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
 }
+?>
