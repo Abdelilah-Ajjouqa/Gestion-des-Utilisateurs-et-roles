@@ -60,19 +60,34 @@ if ($userNameResult && $userNameResult->num_rows > 0) {
 
 
     <!-- Post Card -->
-    <div class="container w-[50%] mx-auto p-4">
-        <div class="bg-white p-6 rounded shadow-md mb-6">
-            <h2 class="text-xl font-bold mb-2"><?php echo $userName ?></h2>
-            <h3 class="text-lg font-semibold mb-2">Post Title</h3>
-            <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea nostrum culpa
-                quidem architecto, voluptatem natus labore delectus fugiat ex, quos eum mollitia aperiam doloribus
-                quisquam quia beatae? Recusandae, ea expedita.</p>
-            <div class="flex justify-end space-x-4"> <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                
-            </div>
+    <div class="container mx-auto grid grid-cols-3 gap-4 mt-10">
+    <?php
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+    ?>
+    <div class="bg-white p-5 rounded shadow-md">
+        <h1 class="text-2xl font-bold"><?php echo htmlspecialchars($row['title']); ?></h1>
+        <p class="text-gray-500"><?php echo htmlspecialchars($row['context']); ?></p>
+        <a href="#" class="text-blue-500 hover:underline">Read more</a>
+        <div class="flex justify-end gap-1">
+            <form method="post" action="edit.php" class="inline">
+                <input type="hidden" name="articleId" value="<?php echo $row['articleId']; ?>">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-20 mt-2">Edit</button>
+            </form>
+            <form method="post" action="./delete-article.php" class="inline">
+                <input type="hidden" name="articleId" value="<?php echo $row['articleId']; ?>">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded w-20 mt-2">Delete</button>
+            </form>
         </div>
     </div>
+    <?php
+        }
+    } else {
+        echo "<h1 class='text-4xl text-center'>There's no Article for now</h1>";
+    }
+    ?>
+</div>
+
 
     <script>
     const container = document.getElementById("articleForm");

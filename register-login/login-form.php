@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($password , $user['userPassword'])) {
         $_SESSION ['email'] = $gmail;
         $_SESSION ['password'] = $password;
-        header("location: ../aticle/article.php");
+        header("location: ../article/article.php");
         exit();
         } else {
             echo 'Invalid password.';
